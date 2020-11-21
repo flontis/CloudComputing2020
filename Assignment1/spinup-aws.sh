@@ -27,3 +27,6 @@ aws ec2 modify-volume --size 100 --volume-id "VOL-ID"
 
 # stop the running instance by passing an instance-id to the command. They can be looked up using `aws ec2 describe-instances`
 aws ec2 stop-instances --instance-ids "INSTANCE_ID"
+
+# verify that all vms are stopped (State: stopped)
+aws ec2 describe-instances

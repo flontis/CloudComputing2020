@@ -1,15 +1,15 @@
-# generate ssh key pair to authenticate 
-ssh-keygen -t rsa -f ~/.ssh/id_rsa -C [GCP_USERNAME]
+# generate an ssh key pair to authenticate your client with your GCP account
+ssh-keygen -t rsa -f ~/.ssh/id_rsa -C "GCP_USERNAME"
 # Restrict access to your private key so that only you can read it and nobody can write to it
 chmod 400 ~/.ssh/id_rsa
-# Upload the public key into your project metadata to authenticate
-gcloud compute project-info add-metadata --metadata-from-file ssh-keys=/Users/[USERNAME]/.ssh/id_rsa
+# Upload the public key from your local machine into your GCP project metadata to authenticate
+gcloud compute project-info add-metadata --metadata-from-file ssh-keys=/Users/"USERNAME"/.ssh/id_rsa
 # Create a Firewall rule that allows incoming ICMP and SSH traffic. The rule must apply only for VMs with the tag “cloud-computing”.
 gcloud compute firewall-rules create traffic-rule --allow tcp:22,icmp --target-tags cloud-computing
-# find the name of the project and family for the GCP image of Ubuntu Server 18.04
+# find the project name and family for the GCP image of Ubuntu Server 18.04
 gcloud compute images list
-# project name: ubuntu-os-cloud family name: ubuntu-1804-lts
-# find the right zone in which the instance should be launched
+# project name: ubuntu-os-cloud, family name: ubuntu-1804-lts
+# find the right zone in which the instance should be launched --> this should be the same as in the AWS task (for comparison)
 gcloud compute zones list
 #i.e.: us-east1-b
 # Launch an instance with the following parameters: 

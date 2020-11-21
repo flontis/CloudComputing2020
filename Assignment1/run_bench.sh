@@ -22,7 +22,7 @@ resultmem=$(sysbench memory --memory-oper=read --memory-block-size=4kb --memory-
 rm=$( echo $resultmem | cut -d"(" -f2)
 rm2=$(echo ${rm%?} | cut -d" " -f1)
 
-# run the rnd read test for max 60 seconds, grep result
+# run the random read test for max 60 seconds, grep result
 rndr=$(sysbench fileio --file-total-size=1GB --file-test-mode=rndrd --file-extra-flags=direct --file-num=1 --max-time=60 run | grep "read, MiB/s:")
 # string manipulation
 rn=$(echo $rndr | cut -d" " -f3)
@@ -32,7 +32,7 @@ seqr=$(sysbench fileio --file-total-size=1GB --file-test-mode=seqrd --file-extra
 # string manipulation
 seqrn=$(echo $seqr | cut -d" " -f3)
 
-# concatenate the strings
+# concatenate the strings for the csv output
 final="${timestamp},${cputime},${rm2},${rn},${seqrn}"
 # print the output
 echo $final

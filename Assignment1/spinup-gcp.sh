@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # generate an ssh key pair to authenticate your client with your GCP account
 ssh-keygen -t rsa -f ~/.ssh/id_rsa -C "GCP_USERNAME"
 # Restrict access to your private key so that only you can read it and nobody can write to it
@@ -26,3 +28,8 @@ gcloud compute disks resize cc20 --size 100GB --zone us-east1-b
 gcloud compute instances stop cc20 --zone us-east1-b
 # verify that all vms are stopped (STATUS TERMINATED)
 gcloud compute instances list
+
+# set up a cron job (on the GCP VM) to execute the benchmarking script `run_bench.sh` every 30 minutes. 
+# The third asterix needs to be replaced with a range of number of days (i.e. 15-16) depending on the date when the benchmarking should be scheduled.
+# >> pipes the output to the specified file
+*/30 * * * * /PATH/TO/run_bench.sh >> /PATH/TO/gcp_result.csv

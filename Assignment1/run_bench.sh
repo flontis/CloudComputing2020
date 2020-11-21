@@ -1,13 +1,10 @@
 #!/bin/bash
 
-
 # prepare random access read disk sysbench, 1gb total file size, mode --> random read, extra-flags --> direct access, no caching, file-num--> use only one file instead of default
 prepare=$(sysbench fileio --file-total-size=1GB --file-test-mode=rndrd --file-extra-flags=direct --file-num=1 prepare)
 
 # prepare sequential disk read acces benchmarking, 1gb total file size, sequential read mode, direct access, use only one file
 prepareseqrd=$(sysbench fileio --file-total-size=1GB --file-test-mode=seqrd --file-extra-flags=direct --file-num=1 prepare)
-
-
 
 # get epoch timestamp in seconds
 timestamp=$(date +%s)
@@ -37,9 +34,5 @@ seqrn=$(echo $seqr | cut -d" " -f3)
 
 # concatenate the strings
 final="${timestamp},${cputime},${rm2},${rn},${seqrn}"
-# print them and enjoy :)
+# print the output
 echo $final
-
-# crontab command
-# get PATH with pwd command from terminal
-# */30 * * * * /PATH/TO/run_bench.sh >> /PATH/TO/aws_result.csv

@@ -30,3 +30,8 @@ aws ec2 stop-instances --instance-ids "INSTANCE_ID"
 
 # verify that all vms are stopped (State: stopped)
 aws ec2 describe-instances
+
+# set up a cron job (on the AWS VM) to execute the benchmarking script `run_bench.sh` every 30 minutes. 
+# The third asterix needs to be replaced with a range of number of days (i.e. 15-16) depending on the date when the benchmarking should be scheduled.
+# >> pipes the output to the specified file
+*/30 * * * * /PATH/TO/run_bench.sh >> /PATH/TO/aws_result.csv

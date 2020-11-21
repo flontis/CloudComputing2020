@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#ssh-keygen -t rsa -f ~/.ssh/id_rsa -C [USERNAME]
+# generate an ssh key pair to authenticate your client with your AWS account
+# ssh-keygen -t rsa -f ~/.ssh/id_rsa -C [USERNAME]
 
 # check if vpc is available
 aws ec2 describe-vpcs

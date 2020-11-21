@@ -36,3 +36,10 @@ seqrn=$(echo $seqr | cut -d" " -f3)
 final="${timestamp},${cputime},${rm2},${rn},${seqrn}"
 # print the output
 echo $final
+
+# optionally, to cleanup after finishing the benchmark test, run
+# sysbench fileio --file-total-size=1GB --file-test-mode=rndrd --file-extra-flags=direct --file-num=1 cleanup
+# and
+# sysbench fileio --file-total-size=1GB --file-test-mode=seqrd --file-extra-flags=direct --file-num=1 cleanup
+# to delete the files used for testing. But do it after the completed benchmark test, otherwise the files need to be recreated before every run,
+# resulting in unnecessary overhead

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#ssh-keygen -t rsa -f ~/.ssh/id_rsa -C florian
+#ssh-keygen -t rsa -f ~/.ssh/id_rsa -C [USERNAME]
 
 # check if vpc is available
 aws ec2 describe-vpcs

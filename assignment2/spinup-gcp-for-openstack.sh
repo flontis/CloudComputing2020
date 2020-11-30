@@ -27,4 +27,4 @@ gcloud compute instances create compute2 --image=nested-vm-image --zone europe-w
 gcloud compute firewall-rules create rule1 --allow=tcp,icmp,udp --network=cc-network1 --source-tags=cc --target-tags=cc
 
 # ???
-gcloud compute firewall-rules create number8 --allow=tcp,icmp --network=cc-network1 --target-tags=cc
+gcloud compute firewall-rules create number8 --allow=tcp,icmp --network=cc-network1 --source-range=0.0.0.0/0

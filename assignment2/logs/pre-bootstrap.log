@@ -1,0 +1,50 @@
+
+PLAY [control, compute] ********************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+
+TASK [Install python-minimal] **************************************************
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+
+TASK [Install pip] *************************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [install all required apt packages] ***************************************
+ok: [35.240.122.237] => (item=python3-dev)
+ok: [104.199.92.79] => (item=python3-dev)
+ok: [35.195.187.6] => (item=python3-dev)
+ok: [104.199.92.79] => (item=python3-pip)
+ok: [35.195.187.6] => (item=python3-pip)
+ok: [35.240.122.237] => (item=python3-pip)
+ok: [104.199.92.79] => (item=libffi-dev)
+ok: [35.240.122.237] => (item=libffi-dev)
+ok: [35.195.187.6] => (item=libffi-dev)
+ok: [35.240.122.237] => (item=gcc)
+ok: [104.199.92.79] => (item=gcc)
+ok: [35.195.187.6] => (item=gcc)
+ok: [104.199.92.79] => (item=libssl-dev)
+ok: [35.240.122.237] => (item=libssl-dev)
+ok: [35.195.187.6] => (item=libssl-dev)
+
+TASK [install docker] **********************************************************
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+
+TASK [make sure that docker-py is not present] *********************************
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+
+PLAY RECAP *********************************************************************
+104.199.92.79              : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+35.195.187.6               : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+35.240.122.237             : ok=6    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

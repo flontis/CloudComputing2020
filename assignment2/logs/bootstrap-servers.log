@@ -1,0 +1,371 @@
+Bootstrapping servers : ansible-playbook -i ./multinode -e @/home/felix/assignment2/files/kolla-ansible/globals.yml  -e @./passwords.yml -e CONFIG_DIR=/home/felix/assignment2/files/kolla-ansible  -e kolla_action=bootstrap-servers /home/felix/pyenv/cc/share/kolla-ansible/ansible/kolla-host.yml 
+
+PLAY [Gather facts for all hosts] ***********************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [localhost]
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [Group hosts to determine when using --limit] ******************************************************
+changed: [35.195.187.6]
+changed: [35.240.122.237]
+changed: [104.199.92.79]
+changed: [localhost]
+
+PLAY [Gather facts for all hosts (if using --limit)] ****************************************************
+skipping: no hosts matched
+
+PLAY [Apply role baremetal] *****************************************************************************
+
+TASK [baremetal : Ensure localhost in /etc/hosts] *******************************************************
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+
+TASK [baremetal : Ensure hostname does not point to 127.0.1.1 in /etc/hosts] ****************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Generate /etc/hosts for all of the nodes] *********************************************
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+
+TASK [baremetal : Ensure /etc/cloud/cloud.cfg exists] ***************************************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Disable cloud-init manage_etc_hosts] **************************************************
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+
+TASK [baremetal : Ensure sudo group is present] *********************************************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Ensure kolla group is present] ********************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Install apt packages] *****************************************************************
+changed: [35.195.187.6]
+changed: [35.240.122.237]
+changed: [104.199.92.79]
+
+TASK [baremetal : Install ca certs] *********************************************************************
+ok: [104.199.92.79] => (item=ca-certificates)
+ok: [35.240.122.237] => (item=ca-certificates)
+ok: [35.195.187.6] => (item=ca-certificates)
+ok: [104.199.92.79] => (item=apt-transport-https)
+ok: [35.195.187.6] => (item=apt-transport-https)
+ok: [35.240.122.237] => (item=apt-transport-https)
+
+TASK [baremetal : Ensure apt sources list directory exists] *********************************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Install docker apt gpg key] ***********************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Enable docker apt repository] *********************************************************
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+
+TASK [baremetal : Ensure yum repos directory exists] ****************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Enable docker yum repository] *********************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Ensure module_hotfixes enabled for docker] ********************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Install docker rpm gpg key] ***********************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Update apt cache] *********************************************************************
+changed: [104.199.92.79]
+changed: [35.195.187.6]
+changed: [35.240.122.237]
+
+TASK [baremetal : Set firewall default policy] **********************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Check if firewalld is installed] ******************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Disable firewalld] ********************************************************************
+skipping: [104.199.92.79] => (item=firewalld) 
+skipping: [35.195.187.6] => (item=firewalld) 
+skipping: [35.240.122.237] => (item=firewalld) 
+
+TASK [baremetal : Check which containers are running] ***************************************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Install apt packages] *****************************************************************
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+
+TASK [baremetal : Install deltarpm packages] ************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Install RPM packages] *****************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Start docker] *************************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Wait for Docker to start] *************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Ensure containers are running after Docker upgrade] ***********************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Install latest pip in the virtualenv] *************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Install docker SDK for python] ********************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Remove packages] **********************************************************************
+changed: [104.199.92.79]
+changed: [35.195.187.6]
+changed: [35.240.122.237]
+
+TASK [baremetal : Remove packages] **********************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Create kolla user] ********************************************************************
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+
+TASK [baremetal : Add public key to kolla user authorized keys] *****************************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Grant kolla user passwordless sudo] ***************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Ensure virtualenv has correct ownership] **********************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Ensure node_config_directory directory exists for user kolla] *************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Ensure node_config_directory directory exists] ****************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Ensure docker config directory exists] ************************************************
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+
+TASK [baremetal : Merge Zun docker config] **************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Warn about deprecations] **************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Setup docker insecure registries] *****************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Setup docker storage driver] **********************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Setup docker runtime directory] *******************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Warn about docker default iptables] ***************************************************
+ok: [104.199.92.79] => {
+    "msg": "Docker default iptables rules will be disabled by default from the Victoria 11.0.0 release. If you have any non-Kolla containers that need this functionality, you should plan a migration for this change, or set docker_disable_default_iptables_rules to false."
+}
+ok: [35.195.187.6] => {
+    "msg": "Docker default iptables rules will be disabled by default from the Victoria 11.0.0 release. If you have any non-Kolla containers that need this functionality, you should plan a migration for this change, or set docker_disable_default_iptables_rules to false."
+}
+ok: [35.240.122.237] => {
+    "msg": "Docker default iptables rules will be disabled by default from the Victoria 11.0.0 release. If you have any non-Kolla containers that need this functionality, you should plan a migration for this change, or set docker_disable_default_iptables_rules to false."
+}
+
+TASK [baremetal : Disable docker default iptables rules] ************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Merge custom docker config] ***********************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Write docker config] ******************************************************************
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+
+TASK [baremetal : Remove old docker options file] *******************************************************
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+
+TASK [baremetal : Ensure docker service directory exists] ***********************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Configure docker service] *************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Reload docker service file] ***********************************************************
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+
+TASK [baremetal : Get stat of libvirtd apparmor profile] ************************************************
+ok: [35.195.187.6]
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+
+TASK [baremetal : Remove apparmor profile for libvirt] **************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Get stat of chronyd apparmor profile] *************************************************
+ok: [104.199.92.79]
+ok: [35.240.122.237]
+ok: [35.195.187.6]
+
+TASK [baremetal : Remove apparmor profile for chrony] ***************************************************
+changed: [35.240.122.237]
+changed: [104.199.92.79]
+changed: [35.195.187.6]
+
+TASK [baremetal : Create docker group] ******************************************************************
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+
+TASK [baremetal : Add kolla user to docker group] *******************************************************
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+
+TASK [baremetal : Start docker] *************************************************************************
+ok: [104.199.92.79]
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+
+TASK [baremetal : Restart docker] ***********************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Enable docker] ************************************************************************
+ok: [35.195.187.6]
+ok: [35.240.122.237]
+ok: [104.199.92.79]
+
+TASK [baremetal : Stop time service] ********************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Stop time service] ********************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Synchronizing time one-time] **********************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Start time sync service] **************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Start time sync service] **************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : Change state of selinux] **************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+TASK [baremetal : include_tasks] ************************************************************************
+skipping: [104.199.92.79]
+skipping: [35.195.187.6]
+skipping: [35.240.122.237]
+
+PLAY RECAP **********************************************************************************************
+104.199.92.79              : ok=37   changed=5    unreachable=0    failed=0    skipped=32   rescued=0    ignored=0   
+35.195.187.6               : ok=37   changed=5    unreachable=0    failed=0    skipped=32   rescued=0    ignored=0   
+35.240.122.237             : ok=37   changed=5    unreachable=0    failed=0    skipped=32   rescued=0    ignored=0   
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

@@ -1,0 +1,15 @@
+CPU plot comparison
+
+As we expected, the shape of both plots is quite similar, as it is a constant up and down. The mean of the events per second was also quite the same, at about 940 events per second for OpenStack and the Google Cloud as well. This might be due to the fact that the forwarding to the kernel of trapped L2-operations is quite fast. Nevertheless, the same drops in performance can be seen in OpenStack and Google Cloud, as in both plots the minimum of events per second is around 880. Thus it can be concluded that the cpu performance is quite similar for nested virtualization and virtualization.
+
+Memory access
+
+The memory access performance is much worse on OpenStack than on Google Cloud. But this is also due to the fact that the simulated instance of OpenStack has only 2 GB RAM, whereas the instance of Google Cloud has 8 GB. Hence, the measured performance is also quartered. The same behavior of spikes can be seen, as both plots are relatively constant with some spikes up and downwards.
+
+Random disk access
+
+Since the L1-instance has to manage the disk access of the L2-instance, the access performance is also much worse at the OpenStack instance than at the GC instance. Nevertheless, both plots are very constant, hinting that the offset is also a constant. Only sometimes, there are huge drops in the performance of the OpenStack instance, which don't seem to be time-related.
+
+Sequential disk access
+
+For the sequential disk access, the offset for the performance seems again to be quite constant. Here it appears to be that the performance is halved, as the measured 35 blocks per second mean are only half as much as the measured 70 blocks per second for the Google Cloud instance. The plots have the seem to have a quite similar behavior according to drops and peaks. Also, the performance has a rather high fluctuation over time at both instances.

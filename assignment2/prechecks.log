@@ -1,0 +1,1190 @@
+Pre-deployment checking : ansible-playbook -i ./multinode -e @/home/florian/projects/cloudcomputing2020/CloudComputing2020/test/globals.yml -e @./passwords.yml -e CONFIG_DIR=/home/florian/projects/cloudcomputing2020/CloudComputing2020/test  --skip-tags haproxy -e kolla_action=precheck /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/site.yml 
+
+PLAY [Gather facts for all hosts] **************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [Group hosts to determine when using --limit] *********************************************************************************************************************************************************
+changed: [104.199.22.225]
+changed: [localhost]
+changed: [34.78.94.175]
+changed: [35.205.164.130]
+
+PLAY [Gather facts for all hosts (if using --limit)] *******************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Group hosts based on configuration] ******************************************************************************************************************************************************************
+
+TASK [Group hosts based on Kolla action] *******************************************************************************************************************************************************************
+changed: [104.199.22.225]
+changed: [localhost]
+changed: [34.78.94.175]
+changed: [35.205.164.130]
+
+TASK [Group hosts based on enabled services] ***************************************************************************************************************************************************************
+ok: [104.199.22.225] => (item=enable_aodh_False)
+ok: [104.199.22.225] => (item=enable_barbican_False)
+ok: [104.199.22.225] => (item=enable_blazar_False)
+ok: [104.199.22.225] => (item=enable_ceilometer_False)
+ok: [104.199.22.225] => (item=enable_chrony_True)
+ok: [104.199.22.225] => (item=enable_cinder_False)
+ok: [104.199.22.225] => (item=enable_cloudkitty_False)
+ok: [104.199.22.225] => (item=enable_collectd_False)
+ok: [104.199.22.225] => (item=enable_congress_False)
+ok: [104.199.22.225] => (item=enable_cyborg_False)
+ok: [104.199.22.225] => (item=enable_designate_False)
+ok: [104.199.22.225] => (item=enable_elasticsearch_False)
+ok: [104.199.22.225] => (item=enable_etcd_False)
+ok: [localhost] => (item=enable_aodh_False)
+ok: [104.199.22.225] => (item=enable_freezer_False)
+ok: [localhost] => (item=enable_barbican_False)
+ok: [34.78.94.175] => (item=enable_aodh_False)
+ok: [104.199.22.225] => (item=enable_glance_True)
+ok: [localhost] => (item=enable_blazar_False)
+ok: [34.78.94.175] => (item=enable_barbican_False)
+ok: [localhost] => (item=enable_ceilometer_False)
+ok: [104.199.22.225] => (item=enable_gnocchi_False)
+ok: [localhost] => (item=enable_chrony_True)
+ok: [104.199.22.225] => (item=enable_grafana_False)
+ok: [34.78.94.175] => (item=enable_blazar_False)
+ok: [localhost] => (item=enable_cinder_False)
+ok: [104.199.22.225] => (item=enable_haproxy_True)
+ok: [34.78.94.175] => (item=enable_ceilometer_False)
+ok: [localhost] => (item=enable_cloudkitty_False)
+ok: [104.199.22.225] => (item=enable_heat_True)
+ok: [104.199.22.225] => (item=enable_horizon_True)
+ok: [34.78.94.175] => (item=enable_chrony_True)
+ok: [localhost] => (item=enable_collectd_False)
+ok: [34.78.94.175] => (item=enable_cinder_False)
+ok: [localhost] => (item=enable_congress_False)
+ok: [34.78.94.175] => (item=enable_cloudkitty_False)
+ok: [104.199.22.225] => (item=enable_hyperv_False)
+ok: [localhost] => (item=enable_cyborg_False)
+ok: [34.78.94.175] => (item=enable_collectd_False)
+ok: [localhost] => (item=enable_designate_False)
+ok: [104.199.22.225] => (item=enable_influxdb_False)
+ok: [34.78.94.175] => (item=enable_congress_False)
+ok: [localhost] => (item=enable_elasticsearch_False)
+ok: [104.199.22.225] => (item=enable_ironic_False)
+ok: [localhost] => (item=enable_etcd_False)
+ok: [34.78.94.175] => (item=enable_cyborg_False)
+ok: [35.205.164.130] => (item=enable_aodh_False)
+ok: [104.199.22.225] => (item=enable_iscsid_False)
+ok: [localhost] => (item=enable_freezer_False)
+ok: [34.78.94.175] => (item=enable_designate_False)
+ok: [35.205.164.130] => (item=enable_barbican_False)
+ok: [104.199.22.225] => (item=enable_kafka_False)
+ok: [localhost] => (item=enable_glance_True)
+ok: [35.205.164.130] => (item=enable_blazar_False)
+ok: [34.78.94.175] => (item=enable_elasticsearch_False)
+ok: [localhost] => (item=enable_gnocchi_False)
+ok: [104.199.22.225] => (item=enable_karbor_False)
+ok: [35.205.164.130] => (item=enable_ceilometer_False)
+ok: [34.78.94.175] => (item=enable_etcd_False)
+ok: [localhost] => (item=enable_grafana_False)
+ok: [104.199.22.225] => (item=enable_keystone_True)
+ok: [34.78.94.175] => (item=enable_freezer_False)
+ok: [35.205.164.130] => (item=enable_chrony_True)
+ok: [localhost] => (item=enable_haproxy_True)
+ok: [104.199.22.225] => (item=enable_kibana_False)
+ok: [localhost] => (item=enable_heat_True)
+ok: [34.78.94.175] => (item=enable_glance_True)
+ok: [35.205.164.130] => (item=enable_cinder_False)
+ok: [localhost] => (item=enable_horizon_True)
+ok: [34.78.94.175] => (item=enable_gnocchi_False)
+ok: [104.199.22.225] => (item=enable_kuryr_False)
+ok: [localhost] => (item=enable_hyperv_False)
+ok: [34.78.94.175] => (item=enable_grafana_False)
+ok: [35.205.164.130] => (item=enable_cloudkitty_False)
+ok: [localhost] => (item=enable_influxdb_False)
+ok: [104.199.22.225] => (item=enable_magnum_False)
+ok: [34.78.94.175] => (item=enable_haproxy_True)
+ok: [localhost] => (item=enable_ironic_False)
+ok: [35.205.164.130] => (item=enable_collectd_False)
+ok: [34.78.94.175] => (item=enable_heat_True)
+ok: [104.199.22.225] => (item=enable_manila_False)
+ok: [34.78.94.175] => (item=enable_horizon_True)
+ok: [35.205.164.130] => (item=enable_congress_False)
+ok: [104.199.22.225] => (item=enable_mariadb_True)
+ok: [34.78.94.175] => (item=enable_hyperv_False)
+ok: [35.205.164.130] => (item=enable_cyborg_False)
+ok: [localhost] => (item=enable_iscsid_False)
+ok: [localhost] => (item=enable_kafka_False)
+ok: [localhost] => (item=enable_karbor_False)
+ok: [104.199.22.225] => (item=enable_masakari_False)
+ok: [34.78.94.175] => (item=enable_influxdb_False)
+ok: [localhost] => (item=enable_keystone_True)
+ok: [35.205.164.130] => (item=enable_designate_False)
+ok: [34.78.94.175] => (item=enable_ironic_False)
+ok: [104.199.22.225] => (item=enable_memcached_True)
+ok: [localhost] => (item=enable_kibana_False)
+ok: [34.78.94.175] => (item=enable_iscsid_False)
+ok: [35.205.164.130] => (item=enable_elasticsearch_False)
+ok: [localhost] => (item=enable_kuryr_False)
+ok: [104.199.22.225] => (item=enable_mistral_False)
+ok: [34.78.94.175] => (item=enable_kafka_False)
+ok: [localhost] => (item=enable_magnum_False)
+ok: [35.205.164.130] => (item=enable_etcd_False)
+ok: [localhost] => (item=enable_manila_False)
+ok: [34.78.94.175] => (item=enable_karbor_False)
+ok: [104.199.22.225] => (item=enable_monasca_False)
+ok: [35.205.164.130] => (item=enable_freezer_False)
+ok: [localhost] => (item=enable_mariadb_True)
+ok: [34.78.94.175] => (item=enable_keystone_True)
+ok: [104.199.22.225] => (item=enable_mongodb_False)
+ok: [35.205.164.130] => (item=enable_glance_True)
+ok: [localhost] => (item=enable_masakari_False)
+ok: [104.199.22.225] => (item=enable_multipathd_False)
+ok: [34.78.94.175] => (item=enable_kibana_False)
+ok: [35.205.164.130] => (item=enable_gnocchi_False)
+ok: [localhost] => (item=enable_memcached_True)
+ok: [104.199.22.225] => (item=enable_murano_False)
+ok: [localhost] => (item=enable_mistral_False)
+ok: [35.205.164.130] => (item=enable_grafana_False)
+ok: [104.199.22.225] => (item=enable_neutron_True)
+ok: [34.78.94.175] => (item=enable_kuryr_False)
+ok: [localhost] => (item=enable_monasca_False)
+ok: [35.205.164.130] => (item=enable_haproxy_True)
+ok: [104.199.22.225] => (item=enable_nova_True)
+ok: [34.78.94.175] => (item=enable_magnum_False)
+ok: [localhost] => (item=enable_mongodb_False)
+ok: [35.205.164.130] => (item=enable_heat_True)
+ok: [34.78.94.175] => (item=enable_manila_False)
+ok: [104.199.22.225] => (item=enable_octavia_False)
+ok: [35.205.164.130] => (item=enable_horizon_True)
+ok: [localhost] => (item=enable_multipathd_False)
+ok: [34.78.94.175] => (item=enable_mariadb_True)
+ok: [104.199.22.225] => (item=enable_openvswitch_True_enable_ovs_dpdk_False)
+ok: [localhost] => (item=enable_murano_False)
+ok: [35.205.164.130] => (item=enable_hyperv_False)
+ok: [localhost] => (item=enable_neutron_True)
+ok: [104.199.22.225] => (item=enable_outward_rabbitmq_False)
+ok: [34.78.94.175] => (item=enable_masakari_False)
+ok: [localhost] => (item=enable_nova_True)
+ok: [35.205.164.130] => (item=enable_influxdb_False)
+ok: [104.199.22.225] => (item=enable_ovn_False)
+ok: [34.78.94.175] => (item=enable_memcached_True)
+ok: [35.205.164.130] => (item=enable_ironic_False)
+ok: [localhost] => (item=enable_octavia_False)
+ok: [34.78.94.175] => (item=enable_mistral_False)
+ok: [104.199.22.225] => (item=enable_panko_False)
+ok: [localhost] => (item=enable_openvswitch_True_enable_ovs_dpdk_False)
+ok: [34.78.94.175] => (item=enable_monasca_False)
+ok: [35.205.164.130] => (item=enable_iscsid_False)
+ok: [104.199.22.225] => (item=enable_placement_True)
+ok: [localhost] => (item=enable_outward_rabbitmq_False)
+ok: [34.78.94.175] => (item=enable_mongodb_False)
+ok: [localhost] => (item=enable_ovn_False)
+ok: [35.205.164.130] => (item=enable_kafka_False)
+ok: [34.78.94.175] => (item=enable_multipathd_False)
+ok: [104.199.22.225] => (item=enable_prometheus_False)
+ok: [localhost] => (item=enable_panko_False)
+ok: [34.78.94.175] => (item=enable_murano_False)
+ok: [104.199.22.225] => (item=enable_qdrouterd_False)
+ok: [35.205.164.130] => (item=enable_karbor_False)
+ok: [localhost] => (item=enable_placement_True)
+ok: [34.78.94.175] => (item=enable_neutron_True)
+ok: [35.205.164.130] => (item=enable_keystone_True)
+ok: [34.78.94.175] => (item=enable_nova_True)
+ok: [104.199.22.225] => (item=enable_qinling_False)
+ok: [localhost] => (item=enable_prometheus_False)
+ok: [localhost] => (item=enable_qdrouterd_False)
+ok: [34.78.94.175] => (item=enable_octavia_False)
+ok: [35.205.164.130] => (item=enable_kibana_False)
+ok: [104.199.22.225] => (item=enable_rabbitmq_True)
+ok: [34.78.94.175] => (item=enable_openvswitch_True_enable_ovs_dpdk_False)
+ok: [localhost] => (item=enable_qinling_False)
+ok: [34.78.94.175] => (item=enable_outward_rabbitmq_False)
+ok: [localhost] => (item=enable_rabbitmq_True)
+ok: [35.205.164.130] => (item=enable_kuryr_False)
+ok: [104.199.22.225] => (item=enable_rally_False)
+ok: [34.78.94.175] => (item=enable_ovn_False)
+ok: [localhost] => (item=enable_rally_False)
+ok: [35.205.164.130] => (item=enable_magnum_False)
+ok: [104.199.22.225] => (item=enable_redis_False)
+ok: [34.78.94.175] => (item=enable_panko_False)
+ok: [localhost] => (item=enable_redis_False)
+ok: [34.78.94.175] => (item=enable_placement_True)
+ok: [35.205.164.130] => (item=enable_manila_False)
+ok: [104.199.22.225] => (item=enable_sahara_False)
+ok: [localhost] => (item=enable_sahara_False)
+ok: [34.78.94.175] => (item=enable_prometheus_False)
+ok: [35.205.164.130] => (item=enable_mariadb_True)
+ok: [104.199.22.225] => (item=enable_searchlight_False)
+ok: [localhost] => (item=enable_searchlight_False)
+ok: [34.78.94.175] => (item=enable_qdrouterd_False)
+ok: [104.199.22.225] => (item=enable_senlin_False)
+ok: [35.205.164.130] => (item=enable_masakari_False)
+ok: [34.78.94.175] => (item=enable_qinling_False)
+ok: [localhost] => (item=enable_senlin_False)
+ok: [35.205.164.130] => (item=enable_memcached_True)
+ok: [104.199.22.225] => (item=enable_skydive_False)
+ok: [34.78.94.175] => (item=enable_rabbitmq_True)
+ok: [localhost] => (item=enable_skydive_False)
+ok: [34.78.94.175] => (item=enable_rally_False)
+ok: [35.205.164.130] => (item=enable_mistral_False)
+ok: [104.199.22.225] => (item=enable_solum_False)
+ok: [34.78.94.175] => (item=enable_redis_False)
+ok: [localhost] => (item=enable_solum_False)
+ok: [35.205.164.130] => (item=enable_monasca_False)
+ok: [34.78.94.175] => (item=enable_sahara_False)
+ok: [35.205.164.130] => (item=enable_mongodb_False)
+ok: [localhost] => (item=enable_storm_False)
+ok: [104.199.22.225] => (item=enable_storm_False)
+ok: [34.78.94.175] => (item=enable_searchlight_False)
+ok: [35.205.164.130] => (item=enable_multipathd_False)
+ok: [localhost] => (item=enable_swift_False)
+ok: [104.199.22.225] => (item=enable_swift_False)
+ok: [34.78.94.175] => (item=enable_senlin_False)
+ok: [35.205.164.130] => (item=enable_murano_False)
+ok: [localhost] => (item=enable_tacker_False)
+ok: [34.78.94.175] => (item=enable_skydive_False)
+ok: [104.199.22.225] => (item=enable_tacker_False)
+ok: [35.205.164.130] => (item=enable_neutron_True)
+ok: [34.78.94.175] => (item=enable_solum_False)
+ok: [localhost] => (item=enable_telegraf_False)
+ok: [104.199.22.225] => (item=enable_telegraf_False)
+ok: [35.205.164.130] => (item=enable_nova_True)
+ok: [34.78.94.175] => (item=enable_storm_False)
+ok: [localhost] => (item=enable_tempest_False)
+ok: [35.205.164.130] => (item=enable_octavia_False)
+ok: [104.199.22.225] => (item=enable_tempest_False)
+ok: [34.78.94.175] => (item=enable_swift_False)
+ok: [35.205.164.130] => (item=enable_openvswitch_True_enable_ovs_dpdk_False)
+ok: [localhost] => (item=enable_trove_False)
+ok: [34.78.94.175] => (item=enable_tacker_False)
+ok: [104.199.22.225] => (item=enable_trove_False)
+ok: [35.205.164.130] => (item=enable_outward_rabbitmq_False)
+ok: [localhost] => (item=enable_vitrage_False)
+ok: [34.78.94.175] => (item=enable_telegraf_False)
+ok: [35.205.164.130] => (item=enable_ovn_False)
+ok: [104.199.22.225] => (item=enable_vitrage_False)
+ok: [34.78.94.175] => (item=enable_tempest_False)
+ok: [localhost] => (item=enable_vmtp_False)
+ok: [35.205.164.130] => (item=enable_panko_False)
+ok: [104.199.22.225] => (item=enable_vmtp_False)
+ok: [34.78.94.175] => (item=enable_trove_False)
+ok: [localhost] => (item=enable_watcher_False)
+ok: [35.205.164.130] => (item=enable_placement_True)
+ok: [104.199.22.225] => (item=enable_watcher_False)
+ok: [34.78.94.175] => (item=enable_vitrage_False)
+ok: [localhost] => (item=enable_zookeeper_False)
+ok: [35.205.164.130] => (item=enable_prometheus_False)
+ok: [34.78.94.175] => (item=enable_vmtp_False)
+ok: [localhost] => (item=enable_zun_False)
+ok: [104.199.22.225] => (item=enable_zookeeper_False)
+ok: [35.205.164.130] => (item=enable_qdrouterd_False)
+ok: [34.78.94.175] => (item=enable_watcher_False)
+ok: [104.199.22.225] => (item=enable_zun_False)
+ok: [35.205.164.130] => (item=enable_qinling_False)
+ok: [34.78.94.175] => (item=enable_zookeeper_False)
+ok: [35.205.164.130] => (item=enable_rabbitmq_True)
+ok: [34.78.94.175] => (item=enable_zun_False)
+ok: [35.205.164.130] => (item=enable_rally_False)
+ok: [35.205.164.130] => (item=enable_redis_False)
+ok: [35.205.164.130] => (item=enable_sahara_False)
+ok: [35.205.164.130] => (item=enable_searchlight_False)
+ok: [35.205.164.130] => (item=enable_senlin_False)
+ok: [35.205.164.130] => (item=enable_skydive_False)
+ok: [35.205.164.130] => (item=enable_solum_False)
+ok: [35.205.164.130] => (item=enable_storm_False)
+ok: [35.205.164.130] => (item=enable_swift_False)
+ok: [35.205.164.130] => (item=enable_tacker_False)
+ok: [35.205.164.130] => (item=enable_telegraf_False)
+ok: [35.205.164.130] => (item=enable_tempest_False)
+ok: [35.205.164.130] => (item=enable_trove_False)
+ok: [35.205.164.130] => (item=enable_vitrage_False)
+ok: [35.205.164.130] => (item=enable_vmtp_False)
+ok: [35.205.164.130] => (item=enable_watcher_False)
+ok: [35.205.164.130] => (item=enable_zookeeper_False)
+ok: [35.205.164.130] => (item=enable_zun_False)
+
+PLAY [Apply role prechecks] ********************************************************************************************************************************************************************************
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/host_os_checks.yml for 104.199.22.225, localhost, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Checking host OS distribution] ***********************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [localhost]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : Checking host OS release or version] *****************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [localhost]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/datetime_checks.yml for 104.199.22.225, localhost, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Ensure /etc/localtime exist] *************************************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : Fail if /etc/localtime is absent] ********************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [localhost]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : Ensure /etc/timezone exist] **************************************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : Fail if /etc/timezone is absent] *********************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [localhost]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+skipping: [localhost]
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/port_checks.yml for 104.199.22.225, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Checking the api_interface is present] ***************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : Checking the api_interface is active] ****************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : Checking the api_interface ip address configuration] *************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/service_checks.yml for 104.199.22.225, localhost, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Checking Docker version] *****************************************************************************************************************************************************************
+skipping: [localhost]
+ok: [35.205.164.130]
+ok: [104.199.22.225]
+ok: [34.78.94.175]
+
+TASK [prechecks : Checking empty passwords in passwords.yml. Run kolla-genpwd if this task fails] **********************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [prechecks : Check if nscd is running] ****************************************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : Fail if nscd is running] *****************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [localhost]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [prechecks : Validate that internal and external vip address are different when TLS is enabled only on either the internal and external network] ******************************************************
+skipping: [104.199.22.225]
+
+TASK [prechecks : Validate that enable_ceph is disabled] ***************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/package_checks.yml for 104.199.22.225, localhost, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Checking docker SDK version] *************************************************************************************************************************************************************
+skipping: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : Checking Ansible version] ****************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/user_checks.yml for 104.199.22.225, localhost, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Check if config_owner_user existed] ******************************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : Check if config_owner_group existed] *****************************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : Check if ansible user can do passwordless sudo] ******************************************************************************************************************************************
+ok: [localhost]
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [prechecks : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/prechecks/tasks/database_checks.yml for 104.199.22.225, localhost, 34.78.94.175, 35.205.164.130
+
+TASK [prechecks : Check if external mariadb hosts are reachable from the load balancer] ********************************************************************************************************************
+skipping: [104.199.22.225] => (item=104.199.22.225) 
+skipping: [localhost] => (item=104.199.22.225) 
+skipping: [34.78.94.175] => (item=104.199.22.225) 
+skipping: [35.205.164.130] => (item=104.199.22.225) 
+
+TASK [prechecks : Check if external database address is reachable from all hosts] **************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [localhost]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+PLAY [Apply role chrony] ***********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/common/tasks/precheck.yml for 104.199.22.225, 34.78.94.175, 35.205.164.130
+
+TASK [service-precheck : common | Validate inventory groups] ***********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=fluentd) 
+skipping: [104.199.22.225] => (item=kolla-toolbox) 
+skipping: [34.78.94.175] => (item=fluentd) 
+skipping: [104.199.22.225] => (item=cron) 
+skipping: [34.78.94.175] => (item=kolla-toolbox) 
+skipping: [34.78.94.175] => (item=cron) 
+skipping: [35.205.164.130] => (item=fluentd) 
+skipping: [35.205.164.130] => (item=kolla-toolbox) 
+skipping: [35.205.164.130] => (item=cron) 
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+ok: [34.78.94.175]
+ok: [35.205.164.130]
+
+TASK [chrony : include_tasks] ******************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/chrony/tasks/precheck.yml for 104.199.22.225, 34.78.94.175, 35.205.164.130
+
+TASK [service-precheck : chrony | Validate inventory groups] ***********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=chrony) 
+skipping: [34.78.94.175] => (item=chrony) 
+skipping: [35.205.164.130] => (item=chrony) 
+
+PLAY [Apply role haproxy] **********************************************************************************************************************************************************************************
+
+PLAY [Apply role collectd] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role zookeeper] ********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role elasticsearch] ****************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role influxdb] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role telegraf] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role redis] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role kibana] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role mariadb] **********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [mariadb : include_tasks] *****************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/mariadb/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : mariadb | Validate inventory groups] **********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=mariadb) 
+skipping: [104.199.22.225] => (item=mariadb-clustercheck) 
+
+TASK [mariadb : Get container facts] ***********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [mariadb : Checking free port for MariaDB] ************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [mariadb : Checking free port for MariaDB WSREP] ******************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [mariadb : Checking free port for MariaDB IST] ********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [mariadb : Checking free port for MariaDB SST] ********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Apply role memcached] ********************************************************************************************************************************************************************************
+
+TASK [memcached : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/memcached/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : memcached | Validate inventory groups] ********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=memcached) 
+
+TASK [memcached : Get container facts] *********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [memcached : Checking free port for Memcached] ********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Apply role prometheus] *******************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role iscsi] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role multipathd] *******************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role rabbitmq] *********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [rabbitmq : include_tasks] ****************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/rabbitmq/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : rabbitmq | Validate inventory groups] *********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=rabbitmq) 
+
+TASK [rabbitmq : Get container facts] **********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for RabbitMQ] **********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for RabbitMQ Management] ***********************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for RabbitMQ Cluster] **************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for RabbitMQ EPMD] *****************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [rabbitmq : Check if all rabbit hostnames are resolvable] *********************************************************************************************************************************************
+ok: [104.199.22.225] => (item=104.199.22.225)
+
+TASK [rabbitmq : Check if each rabbit hostname resolves uniquely to the proper IP address] *****************************************************************************************************************
+skipping: [104.199.22.225] => (item=[{'cmd': ['getent', 'ahostsv4', 'controller'], 'stdout': '10.132.0.2      STREAM controller\n10.132.0.2      DGRAM  \n10.132.0.2      RAW    ', 'stderr': '', 'rc': 0, 'start': '2020-12-04 11:36:34.410620', 'end': '2020-12-04 11:36:34.413473', 'delta': '0:00:00.002853', 'changed': False, 'invocation': {'module_args': {'_raw_params': 'getent ahostsv4 controller', 'warn': True, '_uses_shell': False, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stderr_lines': [], 'failed': False, 'item': '104.199.22.225', 'ansible_loop_var': 'item'}, '10.132.0.2      STREAM controller']) 
+skipping: [104.199.22.225] => (item=[{'cmd': ['getent', 'ahostsv4', 'controller'], 'stdout': '10.132.0.2      STREAM controller\n10.132.0.2      DGRAM  \n10.132.0.2      RAW    ', 'stderr': '', 'rc': 0, 'start': '2020-12-04 11:36:34.410620', 'end': '2020-12-04 11:36:34.413473', 'delta': '0:00:00.002853', 'changed': False, 'invocation': {'module_args': {'_raw_params': 'getent ahostsv4 controller', 'warn': True, '_uses_shell': False, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stderr_lines': [], 'failed': False, 'item': '104.199.22.225', 'ansible_loop_var': 'item'}, '10.132.0.2      DGRAM  ']) 
+skipping: [104.199.22.225] => (item=[{'cmd': ['getent', 'ahostsv4', 'controller'], 'stdout': '10.132.0.2      STREAM controller\n10.132.0.2      DGRAM  \n10.132.0.2      RAW    ', 'stderr': '', 'rc': 0, 'start': '2020-12-04 11:36:34.410620', 'end': '2020-12-04 11:36:34.413473', 'delta': '0:00:00.002853', 'changed': False, 'invocation': {'module_args': {'_raw_params': 'getent ahostsv4 controller', 'warn': True, '_uses_shell': False, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stderr_lines': [], 'failed': False, 'item': '104.199.22.225', 'ansible_loop_var': 'item'}, '10.132.0.2      RAW    ']) 
+
+TASK [rabbitmq : Checking free port for outward RabbitMQ] **************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for outward RabbitMQ Management] ***************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for outward RabbitMQ Cluster] ******************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [rabbitmq : Checking free port for outward RabbitMQ EPMD] *********************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [rabbitmq : Check if all outward rabbit hostnames are resolvable] *************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=104.199.22.225) 
+
+TASK [rabbitmq : Check if each rabbit hostname resolves uniquely to the proper IP address] *****************************************************************************************************************
+
+PLAY [Apply role rabbitmq (outward)] ***********************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role qdrouterd] ********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role etcd] *************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role keystone] *********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [keystone : include_tasks] ****************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/keystone/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : keystone | Validate inventory groups] *********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=keystone) 
+skipping: [104.199.22.225] => (item=keystone-ssh) 
+skipping: [104.199.22.225] => (item=keystone-fernet) 
+
+TASK [keystone : Get container facts] **********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [keystone : Checking free port for Keystone Admin] ****************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [keystone : Checking free port for Keystone Public] ***************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [keystone : Checking free port for Keystone SSH] ******************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [keystone : Checking fernet_token_expiry] *************************************************************************************************************************************************************
+ok: [104.199.22.225] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+PLAY [Apply role kafka] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role storm] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role karbor] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role swift] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role glance] ***********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [glance : include_tasks] ******************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/glance/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : glance | Validate inventory groups] ***********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=glance-api) 
+skipping: [104.199.22.225] => (item=glance-tls-proxy) 
+
+TASK [glance : Get container facts] ************************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [glance : Checking free port for Glance API] **********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Apply role ironic] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role cinder] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role placement] ********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [placement : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/placement/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : placement | Validate inventory groups] ********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=placement-api) 
+
+TASK [placement : Get container facts] *********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [placement : Checking free port for Placement API] ****************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Bootstrap nova API databases] ************************************************************************************************************************************************************************
+
+TASK [Bootstrap deploy] ************************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Bootstrap upgrade] ***********************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Bootstrap nova cell databases] ***********************************************************************************************************************************************************************
+
+TASK [Bootstrap deploy] ************************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Bootstrap upgrade] ***********************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Apply role nova] *************************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [nova : include_tasks] ********************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/nova/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : nova | Validate inventory groups] *************************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=nova-api) 
+skipping: [104.199.22.225] => (item=nova-scheduler) 
+skipping: [104.199.22.225] => (item=nova-super-conductor) 
+
+TASK [nova : Get container facts] **************************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [nova : Checking free port for Nova API] **************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [nova : Checking free port for Nova Metadata] *********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Apply role nova-cell] ********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [nova-cell : include_tasks] ***************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/nova-cell/tasks/precheck.yml for 34.78.94.175, 35.205.164.130, 104.199.22.225
+
+TASK [service-precheck : nova | Validate inventory groups] *************************************************************************************************************************************************
+skipping: [34.78.94.175] => (item=nova-libvirt) 
+skipping: [34.78.94.175] => (item=nova-ssh) 
+skipping: [35.205.164.130] => (item=nova-libvirt) 
+skipping: [34.78.94.175] => (item=nova-novncproxy) 
+skipping: [35.205.164.130] => (item=nova-ssh) 
+skipping: [34.78.94.175] => (item=nova-spicehtml5proxy) 
+skipping: [35.205.164.130] => (item=nova-novncproxy) 
+skipping: [34.78.94.175] => (item=nova-serialproxy) 
+skipping: [35.205.164.130] => (item=nova-spicehtml5proxy) 
+skipping: [34.78.94.175] => (item=nova-conductor) 
+skipping: [35.205.164.130] => (item=nova-serialproxy) 
+skipping: [104.199.22.225] => (item=nova-libvirt) 
+skipping: [35.205.164.130] => (item=nova-conductor) 
+skipping: [34.78.94.175] => (item=nova-compute) 
+skipping: [104.199.22.225] => (item=nova-ssh) 
+skipping: [34.78.94.175] => (item=nova-compute-ironic) 
+skipping: [35.205.164.130] => (item=nova-compute) 
+skipping: [104.199.22.225] => (item=nova-novncproxy) 
+skipping: [35.205.164.130] => (item=nova-compute-ironic) 
+skipping: [104.199.22.225] => (item=nova-spicehtml5proxy) 
+skipping: [104.199.22.225] => (item=nova-serialproxy) 
+skipping: [104.199.22.225] => (item=nova-conductor) 
+skipping: [104.199.22.225] => (item=nova-compute) 
+skipping: [104.199.22.225] => (item=nova-compute-ironic) 
+
+TASK [nova-cell : Get container facts] *********************************************************************************************************************************************************************
+ok: [35.205.164.130]
+ok: [104.199.22.225]
+ok: [34.78.94.175]
+
+TASK [nova-cell : Checking available compute nodes in inventory] *******************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [nova-cell : Checking free port for Nova NoVNC Proxy] *************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+ok: [104.199.22.225]
+
+TASK [nova-cell : Checking free port for Nova Serial Proxy] ************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [nova-cell : Checking free port for Nova Spice HTML5 Proxy] *******************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [nova-cell : Checking free port for Nova SSH] *********************************************************************************************************************************************************
+skipping: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [nova-cell : Checking free port for Nova Libvirt] *****************************************************************************************************************************************************
+skipping: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [nova-cell : Checking that libvirt is not running] ****************************************************************************************************************************************************
+skipping: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+PLAY [Refresh nova scheduler cell cache] *******************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Refresh cell cache in nova scheduler] ****************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Reload global Nova super conductor services] *********************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Reload nova super conductor services to remove RPC version pin] **************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Reload Nova cell services] ***************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [nova-cell : Reload nova cell services to remove RPC version cap] *************************************************************************************************************************************
+skipping: [34.78.94.175] => (item=nova-conductor) 
+skipping: [34.78.94.175] => (item=nova-compute) 
+skipping: [34.78.94.175] => (item=nova-compute-ironic) 
+skipping: [34.78.94.175] => (item=nova-novncproxy) 
+skipping: [34.78.94.175] => (item=nova-serialproxy) 
+skipping: [35.205.164.130] => (item=nova-conductor) 
+skipping: [34.78.94.175] => (item=nova-spicehtml5proxy) 
+skipping: [35.205.164.130] => (item=nova-compute) 
+skipping: [35.205.164.130] => (item=nova-compute-ironic) 
+skipping: [35.205.164.130] => (item=nova-novncproxy) 
+skipping: [35.205.164.130] => (item=nova-serialproxy) 
+skipping: [35.205.164.130] => (item=nova-spicehtml5proxy) 
+skipping: [104.199.22.225] => (item=nova-conductor) 
+skipping: [104.199.22.225] => (item=nova-compute) 
+skipping: [104.199.22.225] => (item=nova-compute-ironic) 
+skipping: [104.199.22.225] => (item=nova-novncproxy) 
+skipping: [104.199.22.225] => (item=nova-serialproxy) 
+skipping: [104.199.22.225] => (item=nova-spicehtml5proxy) 
+
+PLAY [Reload global Nova API services] *********************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Reload nova API services to remove RPC version pin] **************************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=nova-scheduler) 
+skipping: [104.199.22.225] => (item=nova-api) 
+
+PLAY [Run Nova API online data migrations] *****************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [nova : Run Nova API online database migrations] ******************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Run Nova cell online data migrations] ****************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [nova-cell : Run Nova cell online database migrations] ************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Apply role openvswitch] ******************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+skipping: [104.199.22.225]
+
+TASK [openvswitch : include_tasks] *************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/openvswitch/tasks/precheck.yml for 34.78.94.175, 35.205.164.130, 104.199.22.225
+
+TASK [service-precheck : openvswitch | Validate inventory groups] ******************************************************************************************************************************************
+skipping: [34.78.94.175] => (item=openvswitch-db-server) 
+skipping: [34.78.94.175] => (item=openvswitch-vswitchd) 
+skipping: [35.205.164.130] => (item=openvswitch-db-server) 
+skipping: [35.205.164.130] => (item=openvswitch-vswitchd) 
+skipping: [104.199.22.225] => (item=openvswitch-db-server) 
+skipping: [104.199.22.225] => (item=openvswitch-vswitchd) 
+
+TASK [openvswitch : Get container facts] *******************************************************************************************************************************************************************
+ok: [35.205.164.130]
+ok: [104.199.22.225]
+ok: [34.78.94.175]
+
+TASK [openvswitch : Checking free port for OVSDB] **********************************************************************************************************************************************************
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+ok: [104.199.22.225]
+
+PLAY [Apply role ovs-dpdk] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role ovn] **************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role nova-hyperv] ******************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role neutron] **********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+
+TASK [neutron : include_tasks] *****************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/neutron/tasks/precheck.yml for 104.199.22.225, 34.78.94.175, 35.205.164.130
+
+TASK [service-precheck : neutron | Validate inventory groups] **********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=neutron-server) 
+skipping: [104.199.22.225] => (item=neutron-openvswitch-agent) 
+skipping: [104.199.22.225] => (item=neutron-openvswitch-agent-xenapi) 
+skipping: [104.199.22.225] => (item=neutron-linuxbridge-agent) 
+skipping: [34.78.94.175] => (item=neutron-server) 
+skipping: [104.199.22.225] => (item=neutron-dhcp-agent) 
+skipping: [34.78.94.175] => (item=neutron-openvswitch-agent) 
+skipping: [104.199.22.225] => (item=neutron-l3-agent) 
+skipping: [34.78.94.175] => (item=neutron-openvswitch-agent-xenapi) 
+skipping: [104.199.22.225] => (item=neutron-sriov-agent) 
+skipping: [34.78.94.175] => (item=neutron-linuxbridge-agent) 
+skipping: [104.199.22.225] => (item=neutron-metadata-agent) 
+skipping: [35.205.164.130] => (item=neutron-server) 
+skipping: [34.78.94.175] => (item=neutron-dhcp-agent) 
+skipping: [104.199.22.225] => (item=neutron-ovn-metadata-agent) 
+skipping: [34.78.94.175] => (item=neutron-l3-agent) 
+skipping: [35.205.164.130] => (item=neutron-openvswitch-agent) 
+skipping: [34.78.94.175] => (item=neutron-sriov-agent) 
+skipping: [34.78.94.175] => (item=neutron-metadata-agent) 
+skipping: [35.205.164.130] => (item=neutron-openvswitch-agent-xenapi) 
+skipping: [104.199.22.225] => (item=neutron-bgp-dragent) 
+skipping: [34.78.94.175] => (item=neutron-ovn-metadata-agent) 
+skipping: [35.205.164.130] => (item=neutron-linuxbridge-agent) 
+skipping: [104.199.22.225] => (item=neutron-infoblox-ipam-agent) 
+skipping: [34.78.94.175] => (item=neutron-bgp-dragent) 
+skipping: [35.205.164.130] => (item=neutron-dhcp-agent) 
+skipping: [34.78.94.175] => (item=neutron-infoblox-ipam-agent) 
+skipping: [104.199.22.225] => (item=neutron-metering-agent) 
+skipping: [35.205.164.130] => (item=neutron-l3-agent) 
+skipping: [35.205.164.130] => (item=neutron-sriov-agent) 
+skipping: [34.78.94.175] => (item=neutron-metering-agent) 
+skipping: [104.199.22.225] => (item=ironic-neutron-agent) 
+skipping: [35.205.164.130] => (item=neutron-metadata-agent) 
+skipping: [34.78.94.175] => (item=ironic-neutron-agent) 
+skipping: [35.205.164.130] => (item=neutron-ovn-metadata-agent) 
+skipping: [35.205.164.130] => (item=neutron-bgp-dragent) 
+skipping: [35.205.164.130] => (item=neutron-infoblox-ipam-agent) 
+skipping: [35.205.164.130] => (item=neutron-metering-agent) 
+skipping: [35.205.164.130] => (item=ironic-neutron-agent) 
+
+TASK [neutron : Get container facts] ***********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+ok: [35.205.164.130]
+ok: [34.78.94.175]
+
+TASK [neutron : Checking free port for Neutron Server] *****************************************************************************************************************************************************
+skipping: [34.78.94.175]
+skipping: [35.205.164.130]
+ok: [104.199.22.225]
+
+TASK [neutron : Checking number of network agents] *********************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [neutron : Checking tenant network types] *************************************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=vxlan) 
+
+TASK [neutron : Checking whether Ironic enabled] ***********************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+PLAY [Apply role kuryr] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role heat] *************************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [heat : include_tasks] ********************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/heat/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : heat | Validate inventory groups] *************************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=heat-api) 
+skipping: [104.199.22.225] => (item=heat-api-cfn) 
+skipping: [104.199.22.225] => (item=heat-engine) 
+
+TASK [heat : Get container facts] **************************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [heat : Checking free port for Heat API] **************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [heat : Checking free port for Heat API CFN] **********************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Apply role horizon] **********************************************************************************************************************************************************************************
+
+TASK [common : include_tasks] ******************************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [Registering common role has run] *********************************************************************************************************************************************************************
+skipping: [104.199.22.225]
+
+TASK [horizon : include_tasks] *****************************************************************************************************************************************************************************
+included: /home/florian/projects/cloudcomputing2020/CloudComputing2020/test/try/share/kolla-ansible/ansible/roles/horizon/tasks/precheck.yml for 104.199.22.225
+
+TASK [service-precheck : horizon | Validate inventory groups] **********************************************************************************************************************************************
+skipping: [104.199.22.225] => (item=horizon) 
+
+TASK [horizon : Get container facts] ***********************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+TASK [horizon : Checking free port for Horizon] ************************************************************************************************************************************************************
+ok: [104.199.22.225]
+
+PLAY [Apply role murano] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role solum] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role magnum] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role mistral] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role qinling] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role sahara] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role mongodb] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role panko] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role manila] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role gnocchi] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role ceilometer] *******************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role monasca] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role aodh] *************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role barbican] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role congress] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role cyborg] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role tempest] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role designate] ********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role rally] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role vmtp] *************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role trove] ************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role watcher] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role grafana] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role cloudkitty] *******************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role freezer] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role senlin] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role searchlight] ******************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role tacker] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role octavia] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role zun] **************************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role skydive] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role vitrage] **********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role blazar] ***********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY [Apply role masakari] *********************************************************************************************************************************************************************************
+skipping: no hosts matched
+
+PLAY RECAP *************************************************************************************************************************************************************************************************
+104.199.22.225             : ok=71   changed=2    unreachable=0    failed=0    skipped=87   rescued=0    ignored=0   
+34.78.94.175               : ok=32   changed=2    unreachable=0    failed=0    skipped=29   rescued=0    ignored=0   
+35.205.164.130             : ok=32   changed=2    unreachable=0    failed=0    skipped=29   rescued=0    ignored=0   
+localhost                  : ok=16   changed=2    unreachable=0    failed=0    skipped=10   rescued=0    ignored=0   
+

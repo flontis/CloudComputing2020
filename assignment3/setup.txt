@@ -1,0 +1,30 @@
+# Install QEMU and the KVM-module on Ubuntu Host
+    sudo apt-get install qemu qemu-kvm
+# Download the ubuntu-18.04-iso from https://ubuntu.com/download/server
+# change the extension from .iso to .img (https://askubuntu.com/questions/388037/how-to-create-an-img-file-from-iso-on-ubuntu#388321)
+# convert img to qcow2 using qemu
+	qemu-img convert -f raw -O qcow2 ~/ubuntu1804.img ubuntu1804.qcowq2
+# create disk.img
+	qemu-img create maindisk.img 10G
+# boot from qcow2 into disk.img
+	qemu-system-x86_64 -boot d -cdrom ubuntu1804.qcowq2 -m 4096 -hda maindisk.img -smp $(nproc)
+# install ubuntu server on qemu
+# start ubuntu server from the main disk with port forwarding enabled
+qemu-system-x86_64 -m 4096 -hda maindisk.img -smp $(nproc) -net nic -net user,hostfwd=tcp::2222-:22
+# System description:
+# experiment host (VM): 
+- Ubuntu 18.04 10GB RAM, 6 CPU-Cores 50GB virtual disk
+- Versions of relevant software: QEMU emulator version 4.2.1 on experiment host
+# QEMU:
+- Ubuntu server 18.04. 4GB RAM, 6 CPU-Cores 10GB virtual disk (manually installed)
+- Versions of relevant software: Docker
+# verify QEMU internet access
+	ping tu.berlin
+# to access the VM via ssh, use
+	ssh felix@localhost -p 2222
+# make sure nested virtualization is enabled on the experiment host
+	cat /sys/module/kvm_intel/parameters/nested
+# start QEMU VM with kvm module
+qemu-system-x86_64 -m 4096 -hda maindisk.img -smp $(nproc) -net nic -net user,hostfwd=tcp::2222-:22 -enable-kvm
+
+

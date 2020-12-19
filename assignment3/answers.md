@@ -30,10 +30,33 @@ The throughput for sequential disk access is about the same on all virtualizatio
 ### e. Fork
 Similar to CPU-benchmarking, VMs and containers introduce low CPU access overhead, which does not mitigate the performance compared to an operation on the Host.
 ### f. iperf uplink
-In general, there is a low CPU overhead for handling network traffic. However, the latency for the different platforms varies. Docker experiences a latency increase due to NAT. KVM experiences the same due to the virtual network device introducing latency.
+In general, there is a low CPU overhead for handling network traffic. However, the latency for the different platforms varies. Docker experiences a latency increase due to NAT. KVM experiences the same due to the virtual network device introducing latency. For Qemu, an E1000 PCI was emulated, resulting in, in comparison to the other systems, very slow network performance. The emulated E1000 PCI is in all aspects way slower than the host driver, the Qualcomm Atheros AR8161 Gigabit Ethernet.
 
 # Question 2
 ## Choose the guest system with the highest uplink deviation compared to the native execution and rerun the iperf3 benchmark using a public iperf3 server.
-#TODO
+Chosen server: bouygues.iperf.fr
+Guest system: Qemu (without KVM)
+Results:  94.1
+          94.2
+          94.4
+          94.3
+          94.4
+          94.2
+          92.9
+          91.4
+          91.6
+          92.7
 ## Run the same experiment using the host as a client (and the same public iperf3 server). Could the results from Task 3 be reproduced? Why? Why not?
-#TODO
+Chosen server: bouygues.iperf.fr
+System: native
+Results:  94.5
+          94.7
+          94.5
+          94.6
+          95.0
+          94.7
+          94.6
+          94.5
+          94.6
+          94.5
+Here, we couldn't see any deviation from host performance, but both results are also much slower than the results if the host also provides the server. This indicates that the bottleneck is outside of the internal network, so there has to be a bottleneck on the internet side of the router, i.e. the bandwidth the ISP provides.

@@ -20,15 +20,15 @@ For random disk IO, we were expecting both, KVM and Qemu to score a lower value 
 ## What are the main reasons for the differences between the platforms? Answer these questions for all benchmarks:
 
 ### a. CPU
-VMs and containers introduce low CPU access overhead, which is why the performance was equally high for all platforms.
+VMs and containers introduce low CPU access overhead, which is why the performance was equally high for all platforms. Qemu performed so badly because of the Tiny Code Generator (TCG), who is the only "optimizer" for CPU access in default qemu emulation. Using the TCG, the instructions have to be translated to tcg ops, and afterwards to instructions for the host architecture. If no previous specified JIT (just-in-time) compiler code can be found for instructions, TCG uses the TCG Interpreter (TCI), which is even slower. This results in very bad performance compared to the hardware-supported CPU access of KVM or dockers direct access to the CPU, since only the application is isolated.
 ### b. Memory
-Also, VMs and containers introduce low memory access overhead, which is why the performance of operations in memory is constantly high.
+Also, VMs and containers introduce low memory access overhead, which is why the performance of operations in memory is constantly high. Here again, the memory for Qemu is only emulated, resulting in Shadow Page Tables being generated in order to virtualize the access of the memory, which increases memory access overhead compared to direct memory access very strong.
 ### c. Random disk access
 The virtual IO device of both virtual platforms causes a higher latency and mitigates IOPs.
 ### d Sequential disk access
-The throughput for sequential disk access is about the same on all virtualization platforms. Hardware-assisted virtualization as in KVM is higher than in i.e. full virtualization due to the guest running native IO drivers and "owning" the physical device.
+The throughput for sequential disk access is about the same on all virtualization platforms. Hardware-assisted virtualization as in KVM is faster than in e.g. full virtualization due to the guest running native IO drivers and "owning" the physical device.
 ### e. Fork
-Similar to CPU-benchmarking, VMs and containers introduce low CPU access overhead, which does not mitigate the performance compared to an operation on the Host.
+Similar to CPU-benchmarking, VMs and containers introduce low CPU access overhead, which does not mitigate the performance compared to an operation on the Host. Here again, Qemu performs very bad because the privileged instructions to create new processes have to be trapped and translated, resulting in a heavy performance decrease.
 ### f. iperf uplink
 In general, there is a low CPU overhead for handling network traffic. However, the latency for the different platforms varies. Docker experiences a latency increase due to NAT. KVM experiences the same due to the virtual network device introducing latency. For Qemu, an E1000 PCI was emulated, resulting in, in comparison to the other systems, very slow network performance. The emulated E1000 PCI is in all aspects way slower than the host driver, the Qualcomm Atheros AR8161 Gigabit Ethernet.
 

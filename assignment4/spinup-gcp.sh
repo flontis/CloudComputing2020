@@ -45,7 +45,23 @@ gcloud compute disks resize k8s-node3 --size 50GB --zone europe-west1-b
 # check passwordless ssh and passwordless sudo: gcloud-username@public-ip
 ssh felix.j.schneider@35.241.215.50
 
+# install pip
+sudo apt-get update
+sudo apt-get install -y python3-pip
+pip3 --version
+
 # check icmp traffic ping public-ip
+ping 35.241.215.50
+
+# install required packages
+pip3 install -r ~/kubespray/requirements.txt
+
+# Copy inventory/sample as inventory/mycluster:
+cp -rfp inventory/sample inventory/mycluster
+
+# Update Ansible inventory file with inventory builder:
+declare -a IPS=($(gcloud compute instances list --filter="tags.items=k8s-nodes" --format="value(EXTERNAL_IP)"  | tr '\n' ' '))
+CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inventory.py ${IPS[@]}
 
 # shutdown the vm after using it
 gcloud compute instances stop cc20 --zone us-east1-b

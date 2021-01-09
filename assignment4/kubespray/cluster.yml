@@ -1,6 +1,7 @@
 ---
 - name: Check ansible version
   import_playbook: ansible_version.yml
+  become: yes
 
 - hosts: all
   gather_facts: false
@@ -34,6 +35,7 @@
 - name: Gather facts
   tags: always
   import_playbook: facts.yml
+  become: yes
 
 - hosts: k8s-cluster:etcd
   gather_facts: False

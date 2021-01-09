@@ -1,0 +1,26 @@
+- name: Create k8s webapp namespace
+  k8s:
+    name: testing
+    api_version: v1
+    kind: Namespace
+    state: present
+    
+- name: Create nginx frontend deployment
+  k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: ngnix-frontend-deployment
+      spec:
+        template:
+          metadata:
+          labels:
+            name: nginx
+          spec:
+            containers:
+              - name: nginx
+                image: 
+            
+    

@@ -1,0 +1,35 @@
+# change directory (from the Git root)
+cd assignment4
+
+# building the images from the Dockerfiles
+docker build -f docker/backend/backend.Dockerfile .
+docker build -f docker/frontend/frontend.Dockerfile .
+
+# find the image id to run a container from the before-created images
+docker images ls
+
+# run a container for each new image
+docker run -d c5fc7ec37687
+docker run -d 6f2c0363be16
+
+
+# find the container IDs
+docker container ls
+
+# save the new images by finding the container IDs (using docker container ls) and then committing it to a new image name
+docker container commit 26d12be86cf0 cc-nginx-backend
+docker container commit 1837e90b746c cc-nginx-frontend 
+
+# login to the Dockerhub repository on the command line
+docker login
+
+# tag the image with your dockerhub username so that it can be associated with your account
+docker tag cc-nginx-backend felidsche/cc-nginx-backend
+docker tag cc-nginx-frontend felidsche/cc-nginx-frontend
+
+# push both images (backend/frontend) to the Dockerhub repository
+docker image push felidsche/cc-nginx-backend
+docker image push felidsche/cc-nginx-frontend
+
+# stop all containers
+docker stop $(docker ps -q)

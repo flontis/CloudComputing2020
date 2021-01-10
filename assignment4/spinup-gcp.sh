@@ -24,7 +24,7 @@ gcloud compute firewall-rules create kubernetes-the-kubespray-way-allow-external
   --network kubernetes-the-kubespray-way \
   --source-ranges 0.0.0.0/0
 
-# instances
+# create instances
 for i in 0 1 2; do
   gcloud compute instances create node-${i} \
     --async \
@@ -40,24 +40,11 @@ for i in 0 1 2; do
     --zone europe-west1-b
 done
 
+# start instances
+for i in 0 1 2; do
+  gcloud compute instances start node-${i} \
+    --zone europe-west1-b
+done
+
 # test ssh
 ssh -i /Users/fschnei4/.ssh/gcp felix@public-ip
-
-# deploy
-ansible-playbook -i inventory/mycluster/hosts.yaml -u felix -b -v --private-key=~/.ssh/gcp cluster.yml
-
-# access the cluster
-
-➜ ssh -i /Users/fschnei4/.ssh/gcp felix@public-ip
-USERNAME=felix
-sudo chown -R $USERNAME:$USERNAME /etc/kubernetes/admin.conf
-exit
-
-# copy over the kubeconfig to the local machine
-scp -i /Users/fschnei4/.ssh/gcp $USER@$IP_NODE_0:/etc/kubernetes/admin.conf kubespray-do.conf
-
-# load the config for kubectl
-export KUBECONFIG=$PWD/kubespray-do.conf
-
-# communicate with the cluster
-kubectl get nodes

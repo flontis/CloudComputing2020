@@ -1,0 +1,148 @@
+
+- hosts: all
+  tasks:
+    - name: install pip on all ubuntu nodes
+      become: yes
+      apt:
+        name: python-pip
+        state: present
+        update_cache: yes
+
+    - name: Install openshift python package on all nodes
+      pip:
+        name: openshift>=0.6
+      become: yes
+
+- hosts: node-0
+  tasks:
+    - name: Create a Kubernetes namespace
+      k8s:
+        name: cc
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Create a backend deployment 
+      k8s:
+        definition:
+            api_version: v1
+            kind: Deployment
+            metadata:
+                name: backend
+                namespace: cc
+                labels:
+                    app: backend
+            spec:
+                replicas: 6
+                selector:
+                    matchLabels:
+                        app: backend
+                template:
+                    metadata:
+                        name: backend
+                        labels:
+                            app: backend
+                    spec:
+                        containers:
+                        - name: backend-container
+                          image: felidsche/cc-nginx-backend
+                          ports:
+                          - containerPort: 80
+                livenessProbe:
+                    httpGet: /ready
+                    port: 80
+                    httpHeaders:
+                    - name: CC-Ready
+                      value: Backend
+                    initialDelaySeconds: 3
+                    periodSeconds: 3
+                readinessProbe:
+                    httpGet: /ready
+                    port: 80
+                    httpHeaders:
+                    - name: CC-Ready
+                      value: Backend
+                    initialDelaySeconds: 3
+                    periodSeconds: 3
+
+    - name: Create a backend service object
+      k8s:
+        state: present
+        definition:
+            api_version: v1
+            kind: Service
+            metadata:
+                name: cc-backend-service
+                namespace: cc
+                labels:
+                    service: backend
+            spec:
+                type: ClusterIP
+                ports:
+                - port: 80
+                  protocol: TCP
+                selector:
+                    app: backend
+
+    - name: Create a frontend deployment 
+      k8s:
+        definition:
+           
+            api_version: v1
+            kind: Deployment
+            metadata:
+                name: frontend
+                namespace: cc
+                labels:
+                    app: frontend
+            spec:
+                selector:
+                    matchLabels:
+                        app: frontend
+                replicas: 4
+                template:
+                    metadata:
+                        name: frontend
+                        labels:
+                            app: frontend
+                    spec:
+                        containers:
+                        - name: frontend-container
+                          image: felidsche/cc-nginx-backend
+                          ports:
+                          - containerPort: 80
+                livenessProbe:
+                    httpGet: /ready
+                    port: 80
+                    httpHeaders:
+                    - name: CC-Ready
+                      value: Frontend
+                    initialDelaySeconds: 3
+                    periodSeconds: 3
+                readinessProbe:
+                    httpGet: /ready
+                    port: 80
+                    httpHeaders:
+                    - name: CC-Ready
+                      value: Frontend
+                    initialDelaySeconds: 3
+                    periodSeconds: 3
+
+    - name: Create a frontend service object
+      k8s:
+        state: present
+        definition:
+            api_version: v1
+            kind: Service
+            metadata:
+                name: cc-frontend-service
+                namespace: cc
+                labels:
+                    service: frontend
+            spec:
+                type: NodePort
+                ports:
+                - port: 80
+                  protocol: TCP
+                selector:
+                    app: frontend

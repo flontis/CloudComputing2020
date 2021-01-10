@@ -1,5 +1,42 @@
+#########################################
+#   1.Set up the Kubernetes Cluster     #
+#########################################
+
 # change directory (from the Git root)
 cd assignment4
+
+# set vaiables
+USER=felix
+IPS=($(gcloud compute instances list --filter="tags.items=kubernetes-the-kubespray-way" --format="value(EXTERNAL_IP)"  | tr '\n' ' '))
+IP_NODE_0=34.78.87.76
+# deploy
+ansible-playbook -i inventory/mycluster/hosts.yaml \
+ -u $USER \
+ --become \
+ --become-user=root \
+-v \
+--private-key=~/.ssh/gcp \
+kubespray/cluster.yml
+
+# access the cluster and change ownership of the config file to use it locally
+ssh -i /Users/fschnei4/.ssh/gcp $USER@$IP_NODE_0
+sudo chown -R $USER:$USER /etc/kubernetes/admin.conf
+exit
+
+# copy over the kubeconfig to the local machine
+scp -i /Users/fschnei4/.ssh/gcp $USER@$IP_NODE_0:/etc/kubernetes/admin.conf kubespray-do.conf
+
+# change server in `kubespray-do.conf` to $IP_NODE_0
+
+# load the config for kubectl
+export KUBECONFIG=$PWD/kubespray-do.conf
+
+# communicate with the cluster
+kubectl get nodes
+
+#########################################
+#   2. Prepare application containers   #
+#########################################
 
 # building the images from the Dockerfiles
 docker build -f docker/backend/backend.Dockerfile .
@@ -33,3 +70,37 @@ docker image push felidsche/cc-nginx-frontend
 
 # stop all containers
 docker stop $(docker ps -q)
+
+#########################################
+#  3. Deploy the application            #
+#########################################
+
+ansible-playbook -i inventory/mycluster/hosts.yaml \
+    -u $USER \
+    --become \
+    --become-user=root \
+    -v \
+    --private-key=~/.ssh/gcp \
+    webapp.yml
+
+# verify deployment
+kubectl get deployment --namespace cc
+
+# find out the node port chosen by Kubernetes to export your frontend services on the VMs
+NODE_PORT=$(kubectl get svc --namespace cc cc-frontend-service \
+  --output=jsonpath='{range .spec.ports[0]}{.nodePort}')
+
+# Create a firewall rule that allows remote access to the frontend-service node port:
+gcloud compute firewall-rules create kubernetes-the-kubespray-way-allow-nginx-service \
+  --allow=tcp:${NODE_PORT} \
+  --network kubernetes-the-kubespray-way
+
+# Retrieve the external IP address of a worker instance
+EXTERNAL_IP=$(gcloud compute instances describe node-0 \
+  --format 'value(networkInterfaces[0].accessConfigs[0].natIP)')
+
+# Make an HTTP request using the external IP address and the frontend-service node port:
+curl -I http://${EXTERNAL_IP}:${NODE_PORT}
+
+# run test script with the host:port pairs of all public IPs
+python3 ../test-deployment.py 34.78.87.76:32672 34.76.125.233:32672 34.78.1.118:32672 >> test-output.txt

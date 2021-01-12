@@ -1,0 +1,28 @@
+
+# use Sublime Text Editor to open the Dockerfiles
+subl frontend.Dockerfile
+subl backend.Dockerfile
+
+# build the Docker Images out of the specified Dockerfile and tag them accordingly
+sudo docker image build . -f frontend.Dockerfile -t frontend.nginx:frontend
+sudo docker image build . -f backend.Dockerfile -t backend.nginx:backend
+
+# log in into DockerHub
+sudo docker login
+
+# tag the frontend image and push it to DockerHub
+sudo docker tag frontend.nginx flontis/cc20:frontend
+sudo docker push flontis/cc20:frontend
+
+# tag the backend image and push it to DockerHub
+sudo docker tag backend.nginx flontis/cc20:backend
+sudo docker push flontis/cc20:backend 
+
+# process the webapp-yml-playbook with inventory file hosts.yaml
+ansible-playbook -i inventory/mycluster/hosts.yaml webapp.yml
+
+# to get the used nodeport for the services, read the one from frontend-service
+kubectl get svc -n cc-backend-service
+
+# use the external IP addresses and the nodePort-port from previous command to test the deployment
+python3 test-deployment.py 35.195.82.208:31991 34.78.9.191:31991 34.76.101.25:31991 >> test-output.txt

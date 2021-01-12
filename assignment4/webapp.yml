@@ -1,0 +1,165 @@
+#This is the deployment ansible playbook
+
+- hosts: kube-master[0]
+ 
+ # first install openshift
+  pre_tasks:
+  - name: install python-pip
+    become: yes
+    apt:
+      name: python-pip
+      state: present
+      update_cache: yes
+  - name: install openshift
+    become: yes
+    pip:
+      name: openshift
+  tasks:
+
+  - name: Create a k8s namespace
+    become: yes
+    community.kubernetes.k8s:
+      name: cc-backend-service
+      api_version: v1
+      kind: Namespace
+      state: present
+
+
+
+
+########### Deployment for Backend ################################
+
+
+
+  - name: Create Deployment for Backend
+    become: yes
+    community.kubernetes.k8s:
+      state: present
+      definition:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: cc-backend-deployment
+          namespace: cc-backend-service
+          labels:
+              app: cc-backend-deployment
+        spec:
+          replicas: 6
+          selector:
+            matchLabels:
+              app: cc-backend-deployment
+          template:
+            metadata:
+              labels:
+                app: cc-backend-deployment
+            spec:
+              containers:
+              - name: cc-backend-deployment
+                image: flontis/cc20:backend
+                imagePullPolicy: IfNotPresent
+                ports:
+                - containerPort: 80
+                readinessProbe:
+                  httpGet:
+                    path: /ready
+                    port: 80
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                livenessProbe:
+                  httpGet:
+                    path: /ready
+                    port: 80
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+
+################## Service for Backend ######################
+
+  - name: Create Service for Backend
+    become: yes
+    community.kubernetes.k8s:
+      state: present
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: cc-backend-service
+          namespace: cc-backend-service
+        spec:
+          type: ClusterIP
+          selector:
+            app: cc-backend-deployment
+          ports:
+            - protocol: TCP
+              port: 80
+              targetPort: 80
+
+
+
+################## Deployment for Frontend ####################
+  - name: Create Deployment for Frontend
+    become: yes
+    community.kubernetes.k8s:
+      state: present
+      definition:
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: frontend
+          namespace: cc-backend-service
+          labels:
+            app: frontend
+        spec:
+          replicas: 4
+          selector:
+            matchLabels:
+              app: frontend
+          template:
+            metadata:
+              labels:
+                app: frontend
+            spec:
+              containers:
+              - name: cc-frontend-deployment
+                image: flontis/cc20:frontend
+                imagePullPolicy: IfNotPresent
+                ports:
+                - containerPort: 80
+                readinessProbe:
+                  httpGet:
+                    path: /ready
+                    port: 80
+                  initialDelaySeconds: 60
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+                livenessProbe:
+                  httpGet:
+                    path: /ready
+                    port: 80
+                  initialDelaySeconds: 60
+                  periodSeconds: 10
+                  timeoutSeconds: 3
+
+
+################## Service for Frontend ######################
+
+  - name: Create Service for Frontend
+    become: yes
+    community.kubernetes.k8s:
+      state: present
+      definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: cc-frontend-service
+          namespace: cc-backend-service
+          labels:
+              service: frontend
+        spec:
+          type: NodePort
+          ports:
+          - protocol: TCP
+            port: 80
+          selector:
+              app: frontend

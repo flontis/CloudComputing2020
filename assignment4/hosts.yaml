@@ -1,0 +1,39 @@
+all:
+  hosts:
+    node1:
+      ansible_host: 35.195.82.208
+      ip: 10.240.0.10
+      ansible_ssh_private_key_file: ~/.ssh/gcp
+      ansible_user: flo372
+    node2:
+      ansible_host: 34.78.9.191
+      ip: 10.240.0.11
+      ansible_ssh_private_key_file: ~/.ssh/gcp
+      ansible_user: flo372
+    node3:
+      ansible_host: 34.76.101.25
+      ip: 10.240.0.12
+      ansible_ssh_private_key_file: ~/.ssh/gcp
+      ansible_user: flo372
+  children:
+    kube-master:
+      hosts:
+        node1:
+        node2:
+        node3:
+    kube-node:
+      hosts:
+        node1:
+        node2:
+        node3:
+    etcd:
+      hosts:
+        node1:
+        node2:
+        node3:
+    k8s-cluster:
+      children:
+        kube-master:
+        kube-node:
+    calico-rr:
+      hosts: {}

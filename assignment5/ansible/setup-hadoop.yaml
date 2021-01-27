@@ -1,0 +1,6 @@
+# ansible playbook for first installing required software for hadoop
+- hosts: 
+ # first install openshift
+  pre_tasks:
+  - name: install python-pip
+    become: yes

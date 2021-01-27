@@ -1,0 +1,23 @@
+all:
+  hosts:
+    hadoop-namenode:
+      ansible_host: 35.241.180.6
+      ip: 10.132.8.0
+      ansible_ssh_private_key_file: ./flink-cluster-keypair
+      ansible_user: fschnei4
+    hadoop-resourcemanager:
+      ansible_host: 35.205.102.81
+      ip: 10.132.8.0
+      ansible_ssh_private_key_file: ./flink-cluster-keypair
+      ansible_user: fschnei4
+    hadoop-worker:
+      ansible_host: 35.205.66.103
+      ip: 10.132.8.0
+      ansible_ssh_private_key_file: ./flink-cluster-keypair
+      ansible_user: fschnei4
+  children:
+    hadoop:
+      hosts:
+        hadoop-namenode:
+        hadoop-resourcemanager:
+        hadoop-worker:

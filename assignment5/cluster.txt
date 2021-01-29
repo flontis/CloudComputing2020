@@ -1,0 +1,272 @@
+#######################
+#       GCP Setup     #
+#######################
+# generate an ssh key pair to authenticate your client with your GCP account
+ssh-keygen -t rsa -f flink-cluster-keypair -C "fschnei4"
+# Restrict access to your private key so that only you can read it and nobody can write to it
+chmod 777 flink-cluster-keypair
+# Upload the public key from your local machine into your GCP project metadata to authenticate
+gcloud compute project-info add-metadata --metadata-from-file ssh-keys=flink-cluster-keypair.pub
+
+# create custom network flink-cluster-network
+gcloud compute networks create flink-cluster-network \
+    --subnet-mode=custom
+
+# create subnet for cc-network1 with specific range in the region europe-west1
+gcloud compute networks subnets create flink-cluster-network-subnet \
+    --network=flink-cluster-network \
+    --range=10.132.8.0/21 \
+    --region=europe-west1 
+
+# create the Hadoop Master (NameNode)
+gcloud compute instances create hadoop-namenode \
+    --image-family ubuntu-1804-lts \
+    --image-project ubuntu-os-cloud \
+    --zone europe-west1-b \
+    --machine-type n2-standard-2 \
+    --tags flink-cluster \
+    --network-interface subnet=flink-cluster-network-subnet
+
+# resize the disk of each node to 50GB of storage
+gcloud compute disks resize hadoop-namenode \
+    --size 50GB \
+    --zone europe-west1-b 
+
+#######################
+#       Hadoop Setup  #
+#######################
+
+# ssh into the Master
+ssh -i flink-cluster-keypair fschnei4@34.77.189.97
+
+# update the Ubuntu package manager
+sudo apt update
+
+# install ssh on the Master
+sudo apt install ssh -y
+
+# install pdsh on the Master
+sudo apt install ssh -y
+
+# configure .bashrc
+echo "export PDSH_RCMD_TYPE=ssh" >> .bashrc
+
+# generate ssh key with empty passphrase
+ssh-keygen -t rsa -P "" -f ~/.ssh/id_rsa
+
+# copy the public key to the authorized_keys file
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+# install java8
+sudo apt install openjdk-8-jdk -y
+
+# Download Hadoop 3.2.1
+sudo wget -P ~ https://mirrors.sonic.net/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
+
+# unpack the Hadoop archive
+tar xzf hadoop-3.2.1.tar.gz
+
+# Change the hadoop-3.2.1 folder name to hadoop
+mv hadoop-3.2.1 hadoop
+
+# set the JAVA_HOME path in hadoop-env.sh
+echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/hadoop/etc/hadoop/hadoop-env.sh
+
+# move the hadoop directory
+sudo mv hadoop /usr/local/hadoop
+
+# overwrite /etc/environment
+echo 'PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/hadoop/bin:/usr/local/hadoop/sbin"JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"' > /etc/environment
+
+# add a user called hadoopuser (pw: admin)
+sudo adduser hadoopuser
+
+# modify user permissions
+sudo usermod -aG hadoopuser hadoopuser
+
+sudo chown hadoopuser:root -R /usr/local/hadoop/
+
+sudo chmod g+rwx -R /usr/local/hadoop/
+
+# set local IP addresses of the cluster
+ip addr
+# NameNode: 10.132.8.5, 
+# worker1: 10.132.8.6,
+# worker2: 10.132.8.7
+
+# Open the hosts file and insert your Network configurations
+sudo nano /etc/hosts
+
+# take a disk snapshot
+gcloud compute disks snapshot hadoop-namenode \
+    --zone europe-west1-b 
+
+# mdtlleoglymi
+
+# create an image from the master node
+gcloud compute images create hadoop-namenode-image \
+    --source-disk=hadoop-namenode \
+    --source-image=ubuntu-1804-bionic-v20210119a \
+    --source-image-family ubuntu-1804-lts \
+    --source-image-project ubuntu-os-cloud \ 
+    --source-snapshot=mdtlleoglymi \
+    --source-uri=SOURCE_URI
+
+# make a full clone
+gcloud compute instances create hadoop-namenode-clone \
+    --image=hadoop-namenode-image \
+    --zone europe-west1-b \
+    --machine-type n2-standard-4 \
+    --tags flink-cluster \
+    --network-interface subnet=flink-cluster-network-subnet
+
+# create the slaves from the image
+gcloud compute instances create hadoop-slave-1 \
+    --image=hadoop-namenode-image \
+    --zone europe-west1-b \
+    --machine-type n2-standard-4 \
+    --tags flink-cluster \
+    --network-interface subnet=flink-cluster-network-subnet
+
+gcloud compute instances create hadoop-slave-2 \
+    --image=hadoop-namenode-image \
+    --zone europe-west1-b \
+    --machine-type n2-standard-4 \
+    --tags flink-cluster \
+    --network-interface subnet=flink-cluster-network-subnet
+
+# On the master VM, open the hostname and insert the name of your master virtual machine
+sudo nano /etc/hostname
+
+# same for the slaves
+sudo nano /etc/hostname
+
+# reboot all 3 machines
+sudo reboot
+
+# Configure the SSH on hadoop-master, with the hadoopuser
+su - hadoopuser
+
+# create an ssh key-pair
+ssh-keygen -t rsa
+
+# Now we need to copy the SSH key to all the users
+ssh-copy-id hadoopuser@hadoop-master
+ssh-copy-id hadoopuser@hadoop-slave1
+ssh-copy-id hadoopuser@hadoop-slave2
+
+# (do this on gcp ui)
+
+# On hadoop-master, open core-site.xml and add the configuration
+sudo nano /usr/local/hadoop/etc/hadoop/core-site.xml
+
+<configuration>
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://hadoop-master:9000</value>
+</property>
+</configuration>
+
+# Still on hadoop-master, open the hdfs-site.xml file
+sudo nano /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
+# Add the following configurations:
+<configuration>
+<property>
+<name>dfs.namenode.name.dir</name><value>/usr/local/hadoop/data/nameNode</value>
+</property>
+<property>
+<name>dfs.datanode.data.dir</name><value>/usr/local/hadoop/data/dataNode</value>
+</property>
+<property>
+<name>dfs.replication</name>
+<value>2</value>
+</property>
+</configuration>
+
+# We’re still on hadoop-master, let’s overwrite the workers file
+echo "hadoop-slave1 hadoop-slave2" > /usr/local/hadoop/etc/hadoop/workers
+
+# copy the Hadoop Master configurations to the slaves
+scp /usr/local/hadoop/etc/hadoop/* hadoop-slave1:/usr/local/hadoop/etc/hadoop/
+
+scp /usr/local/hadoop/etc/hadoop/* hadoop-slave2:/usr/local/hadoop/etc/hadoop/
+
+# now we need to format the HDFS file system
+source /etc/environment
+
+hdfs namenode -format
+
+# start HDFS
+start-dfs.sh
+
+# configure YARN on the master
+export HADOOP_HOME="/usr/local/hadoop"
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+
+# In both slaves, open yarn-site.xml and add the following configuration
+sudo nano /usr/local/hadoop/etc/hadoop/yarn-site.xml
+
+<property>
+<name>yarn.resourcemanager.hostname</name>
+<value>hadoop-master</value>
+</property>
+
+# restart HDFS (on Master Node)
+ssh -i flink-cluster-keypair fschnei4@34.77.189.97
+su - hadoopuser
+start-dfs.sh
+start-yarn.sh
+
+# verify all nodes are up
+jps
+
+#######################
+#       Flink Setup   #
+#######################
+
+# verify yarn cluster is healty
+yarn top # ctrl-c to get out
+
+# get hadoop classpath
+hadoop classpath
+
+# set the Hadoop classpath 
+export HADOOP_CLASSPATH="/usr/local/hadoop/etc/hadoop:/usr/local/hadoop/share/hadoop/common/lib/*:/usr/local/hadoop/share/hadoop/common/*:/usr/local/hadoop/share/hadoop/hdfs:/usr/local/hadoop/share/hadoop/hdfs/lib/*:/usr/local/hadoop/share/hadoop/hdfs/*:/usr/local/hadoop/share/hadoop/mapreduce/lib/*:/usr/local/hadoop/share/hadoop/mapreduce/*:/usr/local/hadoop/share/hadoop/yarn:/usr/local/hadoop/share/hadoop/yarn/lib/*:/usr/local/hadoop/share/hadoop/yarn/*"
+
+# download flink distribution 1.12.1
+sudo wget -P ~ https://artfiles.org/apache.org/flink/flink-1.12.1/flink-1.12.1-bin-scala_2.11.tgz
+
+# unpack the Flink archive
+tar xzf flink-1.12.1-bin-scala_2.11.tgz
+
+# change to the flink directory
+cd flink-1.12.1/
+
+# Start YARN Session
+./bin/yarn-session.sh --detached
+
+# application_1611946018691_0005
+
+# copy .txt file and .jar from local to VM
+gcloud compute scp tolstoy-war-and-peace.txt hadoopuser@hadoop-namenode:~ --zone europe-west1-b
+gcloud compute scp WordCount.jar hadoopuser@hadoop-namenode:~ --zone europe-west1-b
+
+# setup hdfs dirs
+hdfs dfs -mkdir /input
+hdfs dfs -mkdir /output
+
+# put and .txt on HDFS
+hdfs dfs -put tolstoy-war-and-peace.txt /input
+
+# Submit the job
+./bin/flink run -t yarn-session -Dyarn.application.id=application_1611946018691_0005 ../WordCount.jar —-input hdfs://hadoop-master:9000/tolstoy-war-and-peace.txt —-output hdfs://hadoop-master:9000/WordCountResults.txt
+
+# stop yarn session
+echo "stop" | ./bin/yarn-session.sh -id application_1611946018691_0005
+
+

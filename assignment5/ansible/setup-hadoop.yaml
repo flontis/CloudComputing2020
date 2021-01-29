@@ -1,6 +1,40 @@
 # ansible playbook for first installing required software for hadoop
-- hosts: 
- # first install openshift
-  pre_tasks:
-  - name: install python-pip
-    become: yes
+- name: Install required software for Hadoop 
+  hosts: all
+  tasks:
+    # install ssh, pdsh, java on all hosts
+    - name: Install ssh
+      shell: apt install ssh -y
+
+    - name: Install pdsh
+      shell: apt install pdsh -y
+    
+    - name: configure pdsh
+      lineinfile:
+        path: .bashrc
+        line: export PDSH_RCMD_TYPE=ssh
+    
+    # configure ssh
+    - name: create ssh key with an empty passphrase
+      shell: ssh-keygen -t rsa -P "" -f id_rsa
+      args:
+        chdir: /home/fschnei4/.ssh/
+        creates: id_rsa
+
+    - name: copy the public key to the authorized_keys file
+      authorized_key:
+        key: {{ lookup('file', '~/.ssh/id_rsa.pub') }}
+        user: fschnei4
+
+    - name: Install Java 8
+      shell: apt install openjdk-8-jdk -y
+      
+    # Download and unpack Hadoop 3.2.1
+    - name: Download Hadoop
+      shell: wget -P ~ https://mirrors.sonic.net/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz  
+    
+    - name: unpack Hadoop 
+      unarchive: 
+        src: hadoop-3.2.1.tar.gz
+        
+    

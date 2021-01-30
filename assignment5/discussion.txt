@@ -1,0 +1,20 @@
+    Which steps in your program require communication and synchronization
+    between your workers?
+
+The workers synchronize in fixed time intervals with the Master over Heartbeats.
+The first part of our program, which consists of splitting the lines of the input into tuples in a "Map"-task and grouping the tuples based on their key, make use of pipeline parallelism. 
+So there is no synchronization necessary.
+
+The second part of our program requires communication over the state of the distributed jobs. Also, all tuples need to be collected onto one worker to be able to perform the sum operation.
+This requires the workers to send their tuples over the network. Then, to sort the tuples of the words and their counts we again need all tuples on one worker to perform a sort operation over all elements.
+So, the second part can not run in parallel.
+
+    What resources is the job bound by? Memory? CPU? Network? Disk?
+
+The job is limited by the network. 
+This is because the second part of our program requires communication and synchronization between workers over the network.
+
+    Could you improve the partitioning of your data to yield better run-time?
+
+Not in this example, since the speed up in Disk IO for partitioned input data would be mitigated by the network overhead of exchanging chunks between workers.
+However, for larger amounts of data, the speedup of parallel Disk IO would out rule the network overhead.

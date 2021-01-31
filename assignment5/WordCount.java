@@ -172,13 +172,16 @@ public class WordCount {
             }
         }
     }
-
+    /*
+     * Method that returns a SortedSet of entries of a Map, given a Map whose values are Comparable
+     */
     static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(
             Map<K, V> map) {
         SortedSet<Map.Entry<K, V>> sortedEntries =
                 new TreeSet<>(
                         (e1, e2) -> {
                             int res = e2.getValue().compareTo(e1.getValue());
+                            // comparing the values 
                             return res != 0 ? res : 1;
                         });
         sortedEntries.addAll(map.entrySet());

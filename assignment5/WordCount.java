@@ -19,9 +19,6 @@ package org.apache.flink.streaming.examples.wordcount;
 
 import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.api.common.operators.Order;
-import org.apache.flink.api.java.DataSet;
-import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.MultipleParameterTool;
 import org.apache.flink.core.fs.FileSystem;
@@ -36,9 +33,10 @@ import org.apache.flink.streaming.examples.wordcount.util.WordCountData;
 import org.apache.flink.util.Collector;
 import org.apache.flink.util.Preconditions;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Implements the "WordCount" program that computes a simple word occurrence histogram over text
@@ -102,7 +100,9 @@ public class WordCount {
                         // group by the tuple field "0" and sum up tuple field "1"
                         .keyBy(value -> value.f0)
                         .sum(1)
+                        // close the window after 1 seconds without new tuples
                         .windowAll(EventTimeSessionWindows.withGap(Time.seconds(1)))
+                        // process all tuples in the window
                         .process(
                                 new ProcessAllWindowFunction<
                                         Tuple2<String, Integer>,
@@ -114,23 +114,24 @@ public class WordCount {
                                             Iterable<Tuple2<String, Integer>> elements,
                                             Collector<Tuple2<String, Integer>> out)
                                             throws Exception {
-                                        // new Execution env for DataSet
-                                        final ExecutionEnvironment processEnv =
-                                                ExecutionEnvironment.getExecutionEnvironment();
-                                        // convert Iterable to Collection (List)
-                                        List<Tuple2<String, Integer>> result =
-                                                StreamSupport.stream(elements.spliterator(), false)
-                                                        .collect(Collectors.toList());
-                                        // convert List to DataSet
-                                        DataSet<Tuple2<String, Integer>> sortedCounts =
-                                                processEnv
-                                                        .fromCollection(result)
-                                                        // sort the Data
-                                                        .sortPartition(1, Order.DESCENDING)
-                                                        .setParallelism(1);
-                                        // iterate over the dataset and output each tuple
-                                        for (Tuple2<String, Integer> in : sortedCounts.collect()) {
-                                            out.collect(in);
+                                        // construct a TreeMap from Iterable
+                                        Map<String, Integer> map = new TreeMap<>();
+                                        
+                                        // fill the treemap by iterating over the elements in the window
+                                        for (Tuple2<String, Integer> next : elements) {
+                                            String word = next.f0;
+                                            Integer counts = next.f1;
+                                            map.put(word, counts);
+                                        }
+                                        // get sorted set from TreeMap
+                                        SortedSet<Map.Entry<String, Integer>> sortedCounts =
+                                                entriesSortedByValues(map);
+
+                                        // iterate over the set and output each tuple
+                                        for (Map.Entry<String, Integer> entry : sortedCounts) {
+                                            String word = entry.getKey();
+                                            Integer counts = entry.getValue();
+                                            out.collect(new Tuple2<>(word, counts));
                                         }
                                     }
                                 });
@@ -170,5 +171,17 @@ public class WordCount {
                 }
             }
         }
+    }
+
+    static <K, V extends Comparable<? super V>> SortedSet<Map.Entry<K, V>> entriesSortedByValues(
+            Map<K, V> map) {
+        SortedSet<Map.Entry<K, V>> sortedEntries =
+                new TreeSet<>(
+                        (e1, e2) -> {
+                            int res = e2.getValue().compareTo(e1.getValue());
+                            return res != 0 ? res : 1;
+                        });
+        sortedEntries.addAll(map.entrySet());
+        return sortedEntries;
     }
 }

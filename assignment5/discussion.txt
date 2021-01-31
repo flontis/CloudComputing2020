@@ -6,7 +6,7 @@ The first part of our program, which consists of splitting the lines of the inpu
 So there is no synchronization necessary.
 
 The second part of our program requires communication over the state of the distributed jobs. Also, all tuples need to be collected onto one worker to be able to perform the sum operation.
-This requires the workers to send their tuples over the network. Then, to sort the tuples of the words and their counts we again need all tuples on one worker to perform a sort operation over all elements.
+This requires the workers to send their tuples over the network. Then, to sort the tuples of the word-count pairs by their count in descending order, we again need all tuples on one worker to perform a sort operation over all elements.
 So, synchronisation is required while we are receiving the data.
 
     What resources is the job bound by? Memory? CPU? Network? Disk?
@@ -17,4 +17,4 @@ This is because the second part of our program requires communication and synchr
     Could you improve the partitioning of your data to yield better run-time?
 
 The partitioning of data between the workers could not yield better runtime, because it is limited by the network and the communication overhead. 
-Nevertheless, if the taskslots per worker are increased, i.e. parallelization happens on the same node, the runtime decreases
+Nevertheless, if the taskslots per worker are increased, i.e. parallelization happens on the same node, the runtime decreases.
